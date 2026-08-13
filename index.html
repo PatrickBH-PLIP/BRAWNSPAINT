@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BRAWNS PAINT</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-blob blob-a"></span>
+      <span class="brand-blob blob-b"></span>
+      <span class="brand-blob blob-c"></span>
+      <h1>BRAWNS <span>PAINT</span></h1>
+    </div>
+    <div class="topbar-actions">
+      <button id="downloadBtn" class="ghost-btn" title="Baixar sua arte em PNG">⭳ Baixar PNG</button>
+      <button id="clearBtn" class="danger-btn" title="Apagar toda a tela">🗑 Limpar tudo</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+
+    <!-- LEFT PALETTE -->
+    <aside class="palette">
+
+      <section class="panel">
+        <h2>Fundo</h2>
+        <div class="row">
+          <input type="color" id="bgColor" value="#fdf6ec" title="Cor do plano de fundo" />
+          <label for="bgColor">cor da tela</label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Cor do traço</h2>
+        <div class="row">
+          <input type="color" id="brushColor" value="#2b2b2b" title="Cor da caneta/pincel" />
+          <label for="brushColor">cor ativa</label>
+        </div>
+        <label class="checkbox-row">
+          <input type="checkbox" id="rainbowMode" />
+          🌈 modo arco-íris (a cor muda sozinha)
+        </label>
+        <div class="color-history-wrap">
+          <span class="hint-inline">últimas cores usadas</span>
+          <div id="colorHistory" class="color-history"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Ferramentas</h2>
+        <div class="tools-grid" id="toolsGrid">
+          <button class="tool-btn active" data-tool="lapis" title="Lápis — traço fino e seco">
+            <span class="tool-icon">✏️</span><span>Lápis</span>
+          </button>
+          <button class="tool-btn" data-tool="caneta" title="Caneta — traço liso e uniforme">
+            <span class="tool-icon">🖊️</span><span>Caneta</span>
+          </button>
+          <button class="tool-btn" data-tool="marcador" title="Caneta marcador — traço largo translúcido">
+            <span class="tool-icon">🖍️</span><span>Marcador</span>
+          </button>
+          <button class="tool-btn" data-tool="rolo" title="Rolo de pintura — faixa larga com textura">
+            <span class="tool-icon">🎨</span><span>Rolo</span>
+          </button>
+          <button class="tool-btn" data-tool="pincelP" title="Pincel pequeno — textura macia">
+            <span class="tool-icon">🖌️</span><span>Pincel P</span>
+          </button>
+          <button class="tool-btn" data-tool="pincelM" title="Pincel médio — textura macia">
+            <span class="tool-icon">🖌️</span><span>Pincel M</span>
+          </button>
+          <button class="tool-btn" data-tool="pincelG" title="Pincel grande — textura macia">
+            <span class="tool-icon">🖌️</span><span>Pincel G</span>
+          </button>
+          <button class="tool-btn" data-tool="borracha" title="Borracha — apaga até o fundo">
+            <span class="tool-icon">🧽</span><span>Borracha</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Tamanho <span id="sizeValue">8px</span></h2>
+        <input type="range" id="sizeRange" min="1" max="80" value="8" />
+        <div class="size-preview-box">
+          <span>prévia</span>
+          <div id="sizeDot" class="size-dot"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Imagem</h2>
+        <label class="file-btn">
+          📁 Enviar PNG
+          <input type="file" id="imageInput" accept="image/png,image/jpeg" hidden />
+        </label>
+        <div id="imageControls" class="image-controls hidden">
+          <p class="hint">Arraste para mover · puxe o canto ↘ para redimensionar</p>
+          <div class="row">
+            <button id="applyImageBtn" class="ghost-btn small">✔ Aplicar na tela</button>
+            <button id="cancelImageBtn" class="danger-btn small">✕ Cancelar</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Galeria salva <span class="hint-inline">(armazenamento local)</span></h2>
+        <div class="row">
+          <input type="text" id="galleryName" placeholder="nome da obra" maxlength="24" />
+          <button id="saveGalleryBtn" class="ghost-btn small">💾 Salvar</button>
+        </div>
+        <div id="galleryList" class="gallery-list"></div>
+      </section>
+
+    </aside>
+
+    <!-- CANVAS AREA -->
+    <section class="canvas-area">
+      <div class="canvas-frame" id="canvasFrame">
+        <div id="bgLayer"></div>
+        <canvas id="mainCanvas"></canvas>
+        <canvas id="overlayCanvas"></canvas>
+        <div id="brushCursor" class="brush-cursor"></div>
+      </div>
+      <p class="autosave-note">✓ seu desenho é salvo automaticamente neste navegador</p>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
